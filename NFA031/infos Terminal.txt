@@ -1,0 +1,34 @@
+faire un appel de la méthode
+valeur de retour de la méthode
+Terminal.lireInt() renvoie le premier entier saisit
+au clavier.
+Terminal.lireType(); où Type est le nom du type que l’on souhaite saisir au clavier.
+
+int x;
+double y;
+char c; // Declarations
+x = Terminal.lireInt();
+y = Terminal.lireDouble();
+c = Terminal.lireChar();
+Méthodes de saisie dans Terminal :
+— Terminal.lireInt()
+— Terminal.lireDouble()
+— Terminal.lireChar()
+— Terminal.lireBoolean()
+— Terminal.lireString()
+Méthodes d’affichage :
+Terminal contient également les méthodes d’affichage suivantes qui peuvent remplacer System.out.print
+et System.out.println.
+— Terminal.ecrireInt(n) ;
+— Terminal.ecrireDouble(n) ;
+— Terminal.ecrireBoolean(n) ;
+
+— Terminal.ecrireChar(n) ;
+— Terminal.ecrireString(n) ;
+— Terminal.ecrireIntln(n) ;
+— Terminal.ecrireDoubleln(n) . . .
+Ces méthodes d’affichage sont équivalentes à System.out.print et System.out.println.
+
+Il est possible de passer à la ligne sans rien afficher avec la méthode System.out.println()
+sans paramètre ou avec la méthode Terminal.sautDeLigne().
+12

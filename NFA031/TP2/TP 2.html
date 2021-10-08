@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!-- saved from url=(0067)http://deptinfo.cnam.fr/Enseignement/CycleA/APA/nfa031/tps/tp2.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>TP 2</title>
+<meta name="description" content="TP 2">
+<meta name="keywords" content="tp2">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+
+<meta name="Generator" content="LaTeX2HTML v2008">
+<meta http-equiv="Content-Style-Type" content="text/css">
+
+<link rel="STYLESHEET" href="./TP 2_files/tp2.css">
+
+</head>
+
+<body>
+
+<p>
+</p><h1 align="CENTER">TP 2</h1>
+<div>
+
+<p align="CENTER"><strong>NFA031</strong></p>
+</div>
+
+<p>
+
+</p><h1><a name="SECTION00010000000000000000">
+Erreurs à la compilation</a>
+</h1>
+Compilez le programme suivant et essayez de comprendre les
+messages d'erreur en les identifiants dans le code. Corrigez et recompilez
+jusqu'à ce qu'il n'y ait plus d'erreurs.
+
+<p>
+</p><pre>public class Td1 {
+  public static void main (String [] arguments)  {
+        Terminal.ecrireStringln("exo1");
+        character a;
+        int a,bb
+        char c = 'bonjour';
+        boolean tt =
+        a=2;
+        bb = x+3; 
+        tt=x+4;
+        a = x +1;
+        bb= 3*w; 
+        bb+1 = 3; 
+        bb==2;  
+   }
+}
+</pre>
+
+<p>
+
+</p><h1><a name="SECTION00020000000000000000">
+Appels des méthodes prédéfinies</a>
+</h1>
+
+<p>
+Voici deux méthodes prédéfinies en Java:
+
+</p><ul>
+<li><tt>Character.toLowerCase(char ch)</tt>
+renvoie la minuscule associée au caractère <tt>ch</tt>, si elle
+existe, et renvoie ce même caractère sinon. 
+</li>
+<li><tt>Math.min( int, int)</tt> renvoi l'entier
+   minimum parmi ses deux arguments.
+</li>
+</ul>
+Compilez puis exécutez ce programme. En vous aidant des messages
+affichés, identifiez les instructions qui les ont produit.
+
+<p>
+</p><pre>public class Prog {
+    public static void main (String[] args) {
+        int x;
+        boolean b;
+        x = 3 + Math.min(2,3) -1;
+        Terminal.ecrireIntln(Math.min(2,3));
+        Terminal.ecrireCharln(Character.toLowerCase('1'));
+        Terminal.ecrireString("Un entier? ");
+        x = Terminal.lireInt();
+        Terminal.ecrireIntln(x);
+    }
+}
+</pre>
+
+<p>
+
+</p><h1><a name="SECTION00030000000000000000">
+Odre des instructions avec effets</a>
+</h1>
+
+<p>
+Compilez puis exécutez les programmes suivants. Pouvez-vous
+expliquer les
+différences de comportément?
+
+</p><ol>
+<li><pre> public class Somme1 {
+    public static void main (String [] arguments)       { 
+        int x =3;
+        int y =4;
+        int z;
+        z=x+y;
+        Terminal.ecrireStringln("la somme de "+ x + " et de " + y + " est  " + z);        
+       }
+}
+</pre>
+
+<p>
+</p></li>
+<li><pre> public class Somme2 {
+    public static void main (String [] arguments)      { 
+         int x = 3;
+         int y = 4;
+         x= x+y;
+         Terminal.ecrireStringln("la somme de "+ x + " et de " + y + " est " + x);
+       }
+}
+</pre>
+
+<p>
+</p></li>
+<li><pre>public class Somme3 {
+    public static void main (String [] arguments)     { 
+         int x = 3;
+         int y = 4;
+         Terminal.ecrireString("la somme de "+ x + " et de ");
+         x= x+y; 
+         Terminal.ecrireStringln( y + " est " + x);   
+      }
+}
+</pre>
+</li>
+</ol>
+
+<p>
+
+</p><h1><a name="SECTION00040000000000000000">
+Test de tri</a>
+</h1>
+
+<p>
+Compilez puis exécutez ce programme. En vous aidant des messages
+affichés, identifiez les instructions qui les ont produit et
+expliquez ce que le programme fait. Donnez
+au moins deux  exemples d'exécution avec les messages affichés
+à chaque fois. Que se passe-t-il si les valeurs saisies pour
+<tt>a,b,c</tt> sont égales?
+
+</p><p>
+</p><pre>public class Exo {
+    public static void main (String [] arguments) {
+         int a,b,c;
+         boolean abc_tries;
+         Terminal.ecrireString("a ? ");
+         a = Terminal.lireInt();
+         Terminal.ecrireString("b ? ");
+         b = Terminal.lireInt();
+         Terminal.ecrireString("c ? ");
+         c = Terminal.lireInt();
+         abc_tries = (a &lt; b) &amp;&amp; (b &lt; c);
+         Terminal.ecrireBooleanln(abc_tries);
+         Terminal.ecrireStringln("\n");
+    }
+}
+</pre>
+
+<p></p><p>
+<br>
+
+</p><p>
+Changez ce programme de manière à afficher <tt>true</tt>
+lorsque a,b,c sont triés dans un ordre décroissant ou égal (chaque
+élément est plus petit ou égal au précédent).
+
+</p><p>
+<br> </p><hr>
+<address>
+<i>Francois Barthelemy <br>
+2012-10-15</i>
+</address>
+
+
+</body></html>
