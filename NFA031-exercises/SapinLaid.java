@@ -7,60 +7,45 @@
 public class SapinLaid {
 	public static void main (String[] args) {
 
-
-		int nblignes;
-		int nbtriangles;
-
 		Terminal.ecrireStringln("Entrez le nombre de lignes d'étoiles souhaité: ");
-		nblignes = Terminal.lireInt();
+		int nblignes = Terminal.lireInt();
 
 		
 		
 
 		Terminal.ecrireStringln("Entrez le nombre de triangles souhaité: ");
-		nbtriangles = Terminal.lireInt();
+		int nbtriangles = Terminal.lireInt();
 
 
 		for(int k=0;k<nbtriangles;k++) {
 			int nbetoiles = 1;
-			int nbespacesdebut = nblignes-1;
-			int nbespacesfin = nblignes-1;
+			int nbespaces = nblignes-1;
 
 			for(int i=0;i<nblignes;i++) {
 
-				for(int j = 0;j<nbespacesdebut;j++) {
+				for(int j = 0;j<nbespaces;j++) {
 					System.out.print(" ");
 				}
 				for(int j = 0;j<nbetoiles;j++) {
 					System.out.print("*");
-				}
-				for(int j = 0;j<nbespacesfin;j++) {
-					System.out.print(" ");
-				}
-				System.out.println();
+				}				System.out.println();
 				nbetoiles = nbetoiles+2;
-				nbespacesdebut = nbespacesdebut-1;
-				nbespacesfin = nbespacesfin-1;
+				nbespaces = nbespaces-1;
 
 			}
 
 			if (k == nbtriangles-1) {
-					int nbEtoilesTronc = 1;
-					int nbespacesDebut = nblignes-3;
-					int nbespacesFin = nblignes-3;
+					nbetoiles = 1;
+					nbespaces = nblignes-3;
 					
 					for(int l=0;l<nblignes;l++) {
 
-						for(int o = 0;o<nbespacesDebut;o++) {
+						for(int o = 0;o<nbespaces;o++) {
 							System.out.print(" ");
 						}
 
-						for(int m = 0;m<nbEtoilesTronc;m++) {
+						for(int m = 0;m<nbetoiles;m++) {
 							System.out.print("*****");
-						}
-
-						for(int p = 0;p<nbespacesFin;p++) {
-							System.out.print(" ");
 						}
 						System.out.println();
 					}
