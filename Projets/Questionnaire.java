@@ -20,16 +20,21 @@ public class Questionnaire {
   			}
   		}
   	}
-	static void ajouterQuestions(String[] questions, int[] nbquest) {
-		Terminal.ecrireStringln("-------------------------------");
+  	static int introAjouterQuestions(String[] questions, int[] nbquest, int indice) {
+  		Terminal.ecrireStringln("-------------------------------");
 		Terminal.ecrireStringln("Ecrire les questions ci-dessous. Appuyer sur la touche \"q\" pour quitter.");
 		Terminal.ecrireStringln("Il faut ecrire au moins deux questions.");
 		Terminal.ecrireStringln("-------------------------------");
-		String question;
-		int indice=0;
+		indice=0;
 		while(indice<nbquest[0]) {
 			indice = indice+1;
 		}
+		return indice;
+  	}
+	static void ajouterQuestions(String[] questions, int[] nbquest) {
+		String question;
+		int indice = 0;
+		indice = introAjouterQuestions(questions,nbquest,indice);
 		boolean finQuestions = false;
 		while(!finQuestions) {
 			Terminal.ecrireString("Question ");
@@ -54,26 +59,39 @@ public class Questionnaire {
 			System.out.println();
 		}
 	}
-	static void modifierQuestions(String[] questions, int[] nbquest) {
+	static int verificationModifierQuestions(String[] questions, int[] nbquest, int questModif) {
 		Terminal.ecrireStringln("-------------------------------");
 		Terminal.ecrireStringln("Choisissez la question ci-dessous que vous souhaitez modifier.");
 		Terminal.ecrireStringln("Appuyer sur la touche \"q\" pour quitter.");
 		Terminal.ecrireStringln("-------------------------------");
-		int questModif;
-  		if(nbquest[0] == 0) {
+		if(nbquest[0] == 0) {
   			System.out.println("-------------------------------");
   			System.out.println("Il n'y a aucune question dans la liste encore, veuillez ajouter des questions!");
-  		}
-  		for(int i=0;i<nbquest[0];i++) {
+  			return questModif;
+  		} else {
+  			for(int i=0;i<nbquest[0];i++) {
+	  			System.out.println("-------------------------------");
+	  			System.out.print("  ");
+	  			System.out.println(i+1+") "+questions[i]);
+  			}
   			System.out.println("-------------------------------");
-  			System.out.print("  ");
-  			System.out.println(i+1+") "+questions[i]);
-  		}
-  		questModif = lireIntPos("Quelle question souhaitez-vous modifier? ",1,nbquest[0]+1);
-  		questModif = questModif-1;
+	  		System.out.print("  ");
+  			System.out.println(nbquest[0]+1+") Quitter ->");
+  			questModif = lireIntPos("Quelle question souhaitez-vous modifier? ",1,nbquest[0]+1);
+  			questModif = questModif-1;
+  			return questModif;
+  		}	
+	}
+	static void modifierQuestions(String[] questions, int[] nbquest) {
+		int questModif=0;	
+		questModif = verificationModifierQuestions(questions,nbquest,questModif);
 		String question;
 		boolean finQuestions = false;
-		while(!finQuestions) {
+		while(!finQuestions && nbquest[0]>0) {
+			if(questModif==nbquest[0]) {
+				Terminal.ecrireStringln("Vous avez quitte la modification de la question.");
+				break;
+			} 
 			Terminal.ecrireString("Modifier question ");
 			Terminal.ecrireInt(questModif+1);
 			Terminal.ecrireStringln(" :");
@@ -93,7 +111,7 @@ public class Questionnaire {
 			System.out.println();
 		}
 	}
-	static void ajouterReponses(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep) {
+	static void verificationAjouterReponses(int[] nbquest) {
 		Terminal.ecrireStringln("-------------------------------");
 		Terminal.ecrireStringln("Ecrire les reponses ci-dessous. Appuyer sur la touche \"q\" pour quitter.");
 		Terminal.ecrireStringln("Il faut ecrire au moins deux reponses.");
@@ -101,18 +119,33 @@ public class Questionnaire {
   		if(nbquest[0] == 0) {
   			System.out.println("Il n'y a aucune question dans la liste encore, veuillez ajouter des questions d'abord!");
   		}
+	}
+	static int introBoucleForAjouterReponses(String[] questions, int[][] nbrep, int i, int indice) {
+		Terminal.ecrireStringln("------------");
+		Terminal.ecrireString("Ecrire les reponses pour la question ");
+		Terminal.ecrireInt(i+1);
+		Terminal.ecrireStringln(" : "+questions[i]);	
+		indice=0;
+		while(indice<nbrep[i][0]) {
+			indice = indice+1;
+		}
+		return indice;
+	}
+	static void ajouterBonneReponse(String[][] reponses, int[][] nbrep, int[] bonnesRep, int i) {
+		Terminal.ecrireStringln("Quelle est la bonne réponse parmis celles-ci?");
+		for(int j=0;j<nbrep[i][0];j++) {
+			System.out.println(j+1+". "+reponses[i][j]);
+		}
+		bonnesRep[i] = lireIntPos("Bonne réponse: ",1,nbrep[i][0]+1);
+		bonnesRep[i] = bonnesRep[i] - 1;
+	}
+	static void ajouterReponses(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep) {
+		verificationAjouterReponses(nbquest);
 		String reponse;
-		int indice;
+		int indice = 0;
 		for(int i=0; i<nbquest[0];i++) {
-			Terminal.ecrireStringln("------------");
-			Terminal.ecrireString("Ecrire les reponses pour la question ");
-			Terminal.ecrireInt(i+1);
-			Terminal.ecrireStringln(" : "+questions[i]);
+			indice = introBoucleForAjouterReponses(questions,nbrep,i,indice);
 			boolean finReponses = false;
-			indice=0;
-			while(indice<nbrep[i][0]) {
-				indice = indice+1;
-			}
 			while(!finReponses) {
 				Terminal.ecrireString("Reponse ");
 				Terminal.ecrireInt(indice+1);
@@ -135,16 +168,10 @@ public class Questionnaire {
 				}
 				System.out.println();
 			}
-			Terminal.ecrireStringln("Quelle est la bonne réponse parmis celles-ci?");
-			for(int j=0;j<nbrep[i][0];j++) {
-				System.out.println(j+1+". "+reponses[i][j]);
-			}
-			bonnesRep[i] = lireIntPos("Bonne réponse: ",1,nbrep[i][0]+1);
-			bonnesRep[i] = bonnesRep[i] - 1;
+			ajouterBonneReponse(reponses,nbrep,bonnesRep,i);
 		}
 	}
-	static void modifierReponses(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep) {
-		int repModif;
+	static void verificationModifierReponses(int[] nbquest) {
 		Terminal.ecrireStringln("-------------------------------");
 		Terminal.ecrireStringln("Modifier une ou plusieurs reponses ci-dessous.");
 		Terminal.ecrireStringln("Appuyer sur la touche \"q\" pour quitter.");
@@ -153,26 +180,44 @@ public class Questionnaire {
   			System.out.println("Il n'y a aucune question dans la liste encore, veuillez ajouter des questions d'abord!");
   		} 
   		System.out.println("Affichage des questions et reponses");
-  		for(int i=0;i<nbquest[0];i++) {
-  			System.out.println("-------------------------------");
-  			System.out.print("  ");
-  			System.out.println(i+1+") "+questions[i]);
-  			System.out.println("--------");
-  			for(int j=0;j<nbrep[i][0];j++) {
-  				if(nbrep[i][0] == 0) {
-  					System.out.println("Il n'y a aucune reponse a cette question encore, veuillez ajouter des reponses d'abord!");
-  				}
-  				System.out.println(j+1+". "+reponses[i][j]);
+	}
+	static int introBoucleForModifierReponses(String[] questions, String[][] reponses, int[][] nbrep, int[] bonnesRep, int repModif, int i) {
+		System.out.println("-------------------------------");
+  		System.out.print("  ");
+  		System.out.println(i+1+") "+questions[i]);
+  		System.out.println("--------");
+  		for(int j=0;j<nbrep[i][0];j++) {
+  			if(nbrep[i][0] == 0) {
+  				System.out.println("Il n'y a aucune reponse a cette question encore, veuillez ajouter des reponses d'abord!");
   			}
-  			if(reponses[i][bonnesRep[i]] != null) {
-  				System.out.print("Bonne réponse: ");
-  				System.out.println(bonnesRep[i]+1+". "+reponses[i][bonnesRep[i]]);
-  			}
+  			System.out.println(j+1+". "+reponses[i][j]);
+  		}
+  		System.out.println(nbrep[i][0]+1+". Quitter ->");
+  		if(reponses[i][bonnesRep[i]] != null) {
+  			System.out.print("Bonne réponse: ");
+  			System.out.println(bonnesRep[i]+1+". "+reponses[i][bonnesRep[i]]);
+  		}
+  		if(nbrep[i][0] == 0) {
+  			System.out.println("Il n'y a aucune reponse a cette question encore, veuillez ajouter des reponses d'abord!");
+  			return repModif;
+  		} else {
   			repModif = lireIntPos("Quelle reponse souhaitez-vous modifier? ",1,nbrep[i][0]+1);
-  			repModif = repModif-1;
+	  		repModif = repModif-1;
+	  		return repModif;
+  		}
+	}
+	static void modifierReponses(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep) {
+		verificationModifierReponses(nbquest);
+		int repModif=0;
+  		for(int i=0;i<nbquest[0];i++) {
+  			repModif = introBoucleForModifierReponses(questions,reponses,nbrep,bonnesRep,repModif,i);	
   			String reponse;
 			boolean finReponses = false;
-			while(!finReponses) {
+			while(!finReponses && nbrep[i][0]>0) {
+				if(repModif==nbrep[i][0]) {
+					Terminal.ecrireStringln("Vous avez quitte la modification de la reponse.");
+					break;
+				}
 				Terminal.ecrireString("Modifier reponse ");
 				Terminal.ecrireInt(repModif+1);
 				Terminal.ecrireStringln(" :");
@@ -190,15 +235,69 @@ public class Questionnaire {
 					finReponses = true;
 				}
 			}
-			Terminal.ecrireStringln("Quelle est la nouvelle bonne réponse parmis celles-ci?");
-			for(int j=0;j<nbrep[i][0];j++) {
-				System.out.println(j+1+". "+reponses[i][j]);
-			}
-			bonnesRep[i] = lireIntPos("Nouvelle bonne réponse: ",1,nbrep[i][0]+1);
-			bonnesRep[i] = bonnesRep[i] - 1;
+			if(nbrep[i][0]>0 && repModif!=nbrep[i][0]) { ajouterBonneReponse(reponses,nbrep,bonnesRep,i); }
   		}
 	}
-	static void repondreQuestions(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep, int[] repEleve) {
+	static void verificationReponsesMonEleve(int[] nbquest, int[][] nbrep, int[][] nbrepEleve) {
+		System.out.println("-------------------------------");
+  		System.out.println("Affichage des questions et reponses de votre elve");
+  		if(nbquest[0] == 0) {
+  			System.out.println("-------------------------------");
+  			System.out.println("Il n'y a aucune question dans la liste encore, veuillez en ajouter.");
+  		}
+  		else if(nbrep[0][0] == 0) {
+  			System.out.println("-------------------------------");
+  			System.out.println("Il n'y a aucune reponse aux questions encore, veuillez en ajouter.");
+  		}
+  		else if(nbrepEleve[0][0] == 0) {
+  			System.out.println("-------------------------------");
+  			System.out.println("Votre eleve n'a pas encore repondu aux questions, veuillez attendre un peu.");
+  		}
+	}
+	static void afficherNoteReponsesMonEleve(int[] nbquest, int note, float moyenne, int[][] nbrep, int[][] nbrepEleve) {
+		if(nbquest[0] > 0 && nbrep[0][0] > 0 && nbrepEleve[0][0] > 0) {
+  			System.out.println("--------");
+	  		moyenne = nbquest[0]/2;
+	  		System.out.println("Note finale: "+note+" / "+nbquest[0]);
+	  		if(note>=moyenne) {
+	  			System.out.println("Test reussi!");
+	  		}
+	  		else {
+	  			System.out.println("Echec du test. Votre eleve doit le repasser.");
+	  		}
+  		}
+	}
+	static void reponsesMonEleve(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep, int[] repEleve, int[][] nbrepEleve) {
+  		int note=0;
+		float moyenne = 0;
+		verificationReponsesMonEleve(nbquest,nbrep,nbrepEleve);
+  		for(int i=0;i<nbquest[0];i++) {
+  			System.out.println("------------------------------");
+  			System.out.print("  ");
+  			System.out.println(i+1+") "+questions[i]);
+  			System.out.println("--------");
+  			for(int j=0;j<nbrep[i][0];j++) {
+  				if(repEleve[i] == j && nbrepEleve[i][0] > 0) {
+  					System.out.print("Votre eleve a repondu: ");
+  					System.out.println(j+1+". "+reponses[i][j]);
+  					if(repEleve[i] == bonnesRep[i]) {
+  						System.out.println("Vrai! Point: +1");
+  						note = note+1;
+  					} else {
+  						System.out.println("Faux! Point: 0");
+  					}
+  				}
+  			}
+  			if(nbrep[i][0]>0 && nbrepEleve[i][0] > 0) {
+	  			System.out.print("La bonne reponse etait: ");
+	  			System.out.println(bonnesRep[i]+1+". "+reponses[i][bonnesRep[i]]);
+  			} else {
+  				System.out.println("Il n'y a aucune reponse aux questions (dans ce cas veuillez en ajouter) ou votre eleve n'a pas encore repondu au questionnaire.");
+  			}
+  		}
+  		afficherNoteReponsesMonEleve(nbquest,note,moyenne,nbrep,nbrepEleve);
+	}
+	static void repondreQuestions(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep, int[] repEleve, int[][] nbrepEleve) {
   		System.out.println("-------------------------------");
   		System.out.println("Affichage des questions et reponses");
   		if(nbquest[0] == 0) {
@@ -212,38 +311,33 @@ public class Questionnaire {
   			for(int j=0;j<nbrep[i][0];j++) {
   				System.out.println(j+1+". "+reponses[i][j]);
   			}
-  			repEleve[i] = lireIntPos("Quelle est la bonne reponse? ",1,nbrep[i][0]+1);
-  			repEleve[i] = repEleve[i] - 1;
+  			if(nbrep[i][0]>0) {
+  				repEleve[i] = lireIntPos("Quelle est la bonne reponse? ",1,nbrep[i][0]+1);
+  				repEleve[i] = repEleve[i] - 1;
+  				nbrepEleve[i][0]=nbrepEleve[i][0]+1;
+  			} else {
+  				System.out.println("Il n'y a aucune reponse dans la liste encore, veuillez attendre que votre prof en ajoute!");
+  			}
   		}
-
 	}
-	static void afficherReponses(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep, int[] repEleve) {
-  		int note=0;
-		float moyenne = 0;
-  		System.out.println("-------------------------------");
+	static void verificationAfficherReponses(int[] nbquest, int[][] nbrep, int[][] nbrepEleve) {
+		System.out.println("-------------------------------");
   		System.out.println("Affichage des questions avec vos reponses");
   		if(nbquest[0] == 0) {
   			System.out.println("-------------------------------");
   			System.out.println("Il n'y a aucune question dans la liste encore, veuillez attendre que votre prof en ajoute!");
+  		} 
+  		else if(nbrep[0][0] == 0) {
+  			System.out.println("-------------------------------");
+  			System.out.println("Il n'y a aucune reponse aux questions encore, veuillez attendre que votre prof en ajoute!");
   		}
-  		for(int i=0;i<nbquest[0];i++) {
-  			System.out.println("------------------------------");
-  			System.out.print("  ");
-  			System.out.println(i+1+") "+questions[i]);
-  			System.out.println("--------");
-  			for(int j=0;j<nbrep[i][0];j++) {
-  				if(repEleve[i] == j) {
-  					System.out.print("Vous avez repondu: ");
-  					System.out.println(j+1+". "+reponses[i][j]);
-  					if(repEleve[i] == bonnesRep[i]) {
-  						note = note+1;
-  					}
-  				}
-  			}
-  			System.out.print("La bonne reponse etait: ");
-  			System.out.println(bonnesRep[i]+1+". "+reponses[i][bonnesRep[i]]);
+  		else if(nbrepEleve[0][0] == 0) {
+  			System.out.println("-------------------------------");
+  			System.out.println("Vous n'avez pas encore repondu au questionnaire. Veuillez repondre aux questions d'abord.");
   		}
-  		if(nbquest[0] > 0) {
+	}
+	static void afficherNote(int[] nbquest, int note, float moyenne, int[][] nbrep, int[][] nbrepEleve) {
+		if(nbquest[0] > 0 && nbrep[0][0] > 0 && nbrepEleve[0][0] > 0) {
   			System.out.println("--------");
 	  		moyenne = nbquest[0]/2;
 	  		System.out.println("Note finale: "+note+" / "+nbquest[0]);
@@ -255,7 +349,36 @@ public class Questionnaire {
 	  			System.out.println("Retournez au menu et selectionnez 1.");
 	  		}
   		}
-  		
+	}
+	static void afficherReponses(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep, int[] repEleve, int[][] nbrepEleve) {
+  		int note=0;
+		float moyenne = 0;
+		verificationAfficherReponses(nbquest,nbrep,nbrepEleve);
+  		for(int i=0;i<nbquest[0];i++) {
+  			System.out.println("------------------------------");
+  			System.out.print("  ");
+  			System.out.println(i+1+") "+questions[i]);
+  			System.out.println("--------");
+  			for(int j=0;j<nbrep[i][0];j++) {
+  				if(repEleve[i] == j && nbrepEleve[i][0] > 0) {
+  					System.out.print("Vous avez repondu: ");
+  					System.out.println(j+1+". "+reponses[i][j]);
+  					if(repEleve[i] == bonnesRep[i]) {
+  						System.out.println("Vrai! Point: +1");
+  						note = note+1;
+  					} else {
+  						System.out.println("Faux! Point: 0");
+  					}
+  				}
+  			}
+  			if(nbrep[i][0]>0 && nbrepEleve[i][0] > 0) {
+  				System.out.print("La bonne reponse etait: ");
+  				System.out.println(bonnesRep[i]+1+". "+reponses[i][bonnesRep[i]]);
+  			} else {
+  				System.out.println("Il n'y a aucune reponse aux questions encore, soit vous n'avez pas repondu au questionnaire ou soit votre prof n'a pas encore rajouté des question");
+  			}
+  		}
+  		afficherNote(nbquest,note,moyenne,nbrep,nbrepEleve);
 	}
 	public static int lireIntPos( String invite, int min, int max){
 	    int x;
@@ -270,7 +393,7 @@ public class Questionnaire {
 		        else
 		          return x;
 		    } catch (TerminalException e) {
-		        System.out.println("Ce n'est pas un nombre.");
+		    	System.out.println("Ce n'est pas un nombre.");
 		    }
 	    }
   	}
@@ -292,9 +415,9 @@ public class Questionnaire {
 	    System.out.println("3- Ajouter des reponses");
 	    System.out.println("4- Modifier des reponses");
 	    System.out.println("5- Liste des questions et reponses");
-	    // ajouter une option "note et reponses de mon eleve"
-	    System.out.println("6- Quitter");
-	    return lireIntPos("Votre choix: ",1,6);
+	    System.out.println("6- Reponses et note de mon eleve");
+	    System.out.println("7- Quitter");
+	    return lireIntPos("Votre choix: ",1,7);
     }
     public static int menuEleve(){
 	    System.out.println("-----------------------------------");
@@ -305,7 +428,7 @@ public class Questionnaire {
 	    System.out.println("3- Quitter");
 	    return lireIntPos("Votre choix: ",1,3);
     }
-	static void espaceProf(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep) {
+	static void espaceProf(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep, int[] repEleve, int[][] nbrepEleve) {
 		int choix; 
 	    boolean fin = false;
 	    do{
@@ -324,42 +447,46 @@ public class Questionnaire {
 	      }
 	      else if(choix == 5) {
 	        afficher(questions,reponses,nbquest,nbrep,bonnesRep);
-	      } else {
+	      }
+	      else if(choix == 6) {
+	        reponsesMonEleve(questions,reponses,nbquest,nbrep,bonnesRep,repEleve,nbrepEleve);
+	      }  else {
 	        fin = true;
 	      }
 	    }while(!fin);
 	}
-	static void espaceEleve(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep, int[] repEleve) {
+	static void espaceEleve(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep, int[] repEleve, int[][] nbrepEleve) {
 		int choix; 
 	    boolean fin = false;
 	    do{
 	      choix = menuEleve();
 	      if(choix == 1) {
-	        repondreQuestions(questions,reponses,nbquest,nbrep,bonnesRep,repEleve);
+	        repondreQuestions(questions,reponses,nbquest,nbrep,bonnesRep,repEleve,nbrepEleve);
 	      }
 	      else if(choix == 2) {
-	        afficherReponses(questions,reponses,nbquest,nbrep,bonnesRep,repEleve);
+	        afficherReponses(questions,reponses,nbquest,nbrep,bonnesRep,repEleve,nbrepEleve);
 	      } else {
 	        fin = true;
 	      }
 	    }while(!fin);
 	}
 	public static void main(String[] args) {
-		String[] questions = new String[50];
-		int[] bonnesRep = new int[50];
-		int[] repEleve = new int[50];
-		int[] nbquest = {0};
-		String[][] reponses = new String[50][20];
-		int[][] nbrep = new int[50][1];
+		String[] questions = new String[50]; // les questions
+		int[] bonnesRep = new int[50]; // les bonnes reponses pour chaque question
+		int[] repEleve = new int[50]; // les reponses de l'élève
+		int[][] nbrepEleve = new int[50][1]; // le nombre de reponses de l'élève
+		int[] nbquest = {0}; // le nombre de questions
+		String[][] reponses = new String[50][20]; // les reponses a chaque question
+		int[][] nbrep = new int[50][1]; // le nombre de reponses de chaque question
 	    int choix; 
 	    boolean fin = false;
 	    do{
 	      choix = proposeMenu();
 	      if(choix == 1) {
-	        espaceProf(questions,reponses,nbquest,nbrep,bonnesRep);
+	        espaceProf(questions,reponses,nbquest,nbrep,bonnesRep,repEleve, nbrepEleve);
 	      }
 	      else if(choix == 2) {
-	        espaceEleve(questions,reponses,nbquest,nbrep,bonnesRep,repEleve);
+	        espaceEleve(questions,reponses,nbquest,nbrep,bonnesRep,repEleve, nbrepEleve);
 	      } else {
 	        fin = true;
 	      }
