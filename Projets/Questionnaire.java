@@ -136,7 +136,7 @@ public class Questionnaire {
 		for(int j=0;j<nbrep[i][0];j++) {
 			System.out.println(j+1+". "+reponses[i][j]);
 		}
-		bonnesRep[i] = lireIntPos("Bonne réponse: ",1,nbrep[i][0]+1);
+		bonnesRep[i] = lireIntPos("Bonne réponse: ",1,nbrep[i][0]);
 		bonnesRep[i] = bonnesRep[i] - 1;
 	}
 	static void ajouterReponses(String[] questions, String[][] reponses, int[] nbquest, int[][] nbrep, int[] bonnesRep) {
@@ -312,7 +312,7 @@ public class Questionnaire {
   				System.out.println(j+1+". "+reponses[i][j]);
   			}
   			if(nbrep[i][0]>0) {
-  				repEleve[i] = lireIntPos("Quelle est la bonne reponse? ",1,nbrep[i][0]+1);
+  				repEleve[i] = lireIntPos("Quelle est la bonne reponse? ",1,nbrep[i][0]);
   				repEleve[i] = repEleve[i] - 1;
   				nbrepEleve[i][0]=nbrepEleve[i][0]+1;
   			} else {
@@ -387,7 +387,7 @@ public class Questionnaire {
 		        System.out.print(invite);
 		        x =Terminal.lireInt();
 		        if (x<min)
-		          System.out.println("Le nombre doit etre plus grand que "+min);
+		          System.out.println("Le nombre doit etre plus grand ou égal à "+min);
 		        else if (x>max)
 		          System.out.println("Le nombre doit etre inférieur ou égal à "+max);
 		        else
@@ -473,8 +473,8 @@ public class Questionnaire {
 	public static void main(String[] args) {
 		String[] questions = new String[50]; // les questions
 		int[] bonnesRep = new int[50]; // les bonnes reponses pour chaque question
-		int[] repEleve = new int[50]; // les reponses de l'élève
-		int[][] nbrepEleve = new int[50][1]; // le nombre de reponses de l'élève
+		int[] repEleve = new int[50]; // les reponses de l'élève (id de la réponse)
+		int[][] nbrepEleve = new int[50][1]; // le nombre de reponses de l'élève dans la première case du tableau, +1 qd il a répondu
 		int[] nbquest = {0}; // le nombre de questions
 		String[][] reponses = new String[50][20]; // les reponses a chaque question
 		int[][] nbrep = new int[50][1]; // le nombre de reponses de chaque question
