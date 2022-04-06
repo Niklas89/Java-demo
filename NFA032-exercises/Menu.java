@@ -27,7 +27,7 @@ public class Menu {
 		else
 			choixMenu[i]=choix;
 	}
-/*
+
 	public void retirerChoix(String choix) throws NoSuchElementException {
 		int i = 0;
 		while(i<choixMenu.length && ! choixMenu[i].equals(choix))
@@ -36,7 +36,7 @@ public class Menu {
 			throw new NoSuchElementException();
 		else
 			choixMenu[i]=null;
-	} */
+	} 
 	
 	public void afficherChoixMenu() {
 		for(int i=0;i<choixMenu.length;i++){

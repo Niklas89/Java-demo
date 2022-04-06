@@ -1,6 +1,7 @@
 package exoExceptionsMenu;
 
 import java.util.Scanner;
+import java.util.*;
 
 public class TestMenu {
 
@@ -21,16 +22,19 @@ public class TestMenu {
 		}
 		*/
 		menu1.afficherChoixMenu();
-		Scanner sc1 = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
+		int entier1 = 0;
 		System.out.println("Entrez un nombre: ");
 		try {
-			int entier1 = menu1.saisirChoix(sc1.nextInt());
-			sc1.close();
-		} catch(NumberFormatException e) {
+			entier1 = menu1.saisirChoix(sc.nextInt());
+		} catch(InputMismatchException e) {
 			System.out.println("Ce nest pas un nombre !");
 		}
+		System.out.println(entier1);
 		
-		// Menu 2 ci-dessous -------------------------
+		
+		
+		// ============== Menu 2 ================= //
 		
 		Menu menu2 = new Menu(5);
 		try {
@@ -44,14 +48,16 @@ public class TestMenu {
 		}
 		menu2.afficherChoixMenu();
 		
-		Scanner sc2 = new Scanner(System.in);
+		int entier2 = 0;
+		sc.nextLine();
 		System.out.println("Entrez un nombre: ");
 		try {
-			int entier2 = menu2.saisirChoix(sc2.nextInt());
-			sc2.close();
-		} catch(NumberFormatException e) {
+			entier2 = menu2.saisirChoix(sc.nextInt());
+			sc.close();
+		} catch(InputMismatchException e) {
 			System.out.println("Ce nest pas un nombre !");
 		}
+		System.out.println(entier2);
 		
 		
 	}
