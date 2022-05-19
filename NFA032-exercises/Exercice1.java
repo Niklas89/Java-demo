@@ -2,14 +2,13 @@ package chapitre14;
 
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class Exercice1 {
 	
 	private long count(List<String> list, String myString) {
 		
 		BiFunction<List<String>, String, Integer> functionList = (maliste , monString) -> {
-			final int count = 0;
+			int count = 0;
 			maliste.forEach(element -> {
 			    if (element.contains(monString)) {
 			        count++;
