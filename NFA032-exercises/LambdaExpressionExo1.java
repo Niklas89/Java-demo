@@ -3,7 +3,7 @@ package chapitre14;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class Exercice1 {
+public class LambdaExpressionExo1 {
 	
 	long count = 0;
 	
@@ -26,7 +26,7 @@ public class Exercice1 {
 		
 		List<String> list = List.of("hello", "world", "hello", "lambda");
 		
-		Exercice1 obj = new Exercice1();
+		LambdaExpressionExo1 obj = new LambdaExpressionExo1();
 	
 		System.out.println(obj.count(list, "hello"));
 
